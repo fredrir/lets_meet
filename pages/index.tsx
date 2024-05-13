@@ -1,9 +1,8 @@
-"use client";
 import Image from "next/image";
-import Navbar from "@/components/navbar";
-import Button from "@/components/button";
+import Navbar from "../components/navbar";
+import Button from "../components/button";
 import { useState } from "react";
-import CreateEvent from "@/components/create_event";
+import CreateEvent from "../components/create_event";
 
 export default function Home() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -14,7 +13,6 @@ export default function Home() {
   return (
     <main className="flex flex-col">
       <div>
-        <Navbar />
         <div className="flex flex-col p-10 text-center">
           <h1 className="text-4xl font-bold">Organize and plan events!</h1>
           <p className="text-lg mt-4 ">
