@@ -45,39 +45,7 @@ export const createPeriod = async (periodData: periodType) => {
   }
 };
 
-export const getPeriods = async () => {
-  try {
-    if (!periods) await init();
-    const result = await periods.find({}).toArray();
-    return { periods: result };
-  } catch (error) {
-    return { error: "Failed to fetch periods" };
-  }
-};
 
-export const getCurrentPeriods = async () => {
-  try {
-    if (!periods) await init();
-
-    const currentDate = new Date().toISOString();
-
-    const filter = {
-      $or: [
-        {
-          "timePeriod.start": { $lte: currentDate },
-          "timePeriod.end": { $gte: currentDate },
-        },
-      ],
-    };
-
-    const result = await periods.find(filter).toArray();
-
-    return { result: result };
-  } catch (error) {
-    console.error(error);
-    return { error: "Failed to fetch periods" };
-  }
-};
 
 export const getPeriodById = async (id: string | ObjectId) => {
   try {

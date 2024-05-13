@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { periodType } from "../lib/types/types";
 
 export default function CreateEvent({ closeModal }: any) {
   const [name, setName] = useState("");
@@ -7,9 +9,12 @@ export default function CreateEvent({ closeModal }: any) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showDisplayHours, setShowDisplayHours] = useState(true);
+
+  const [period, setPeriod] = useState<periodType>();
 
   const handlePasswordChange = (e: any) => {
     setShowPasswordInput(e.target.checked);
@@ -44,13 +49,14 @@ export default function CreateEvent({ closeModal }: any) {
       eventPassword: showPasswordInput ? "password" : "",
     };
 
-    console.log(periodData);
-
     try {
       const response = await axios.post("/api/periods", periodData);
       if (response.status === 201) {
         console.log("Period created successfully");
         closeModal();
+        const periodId = response.data.id;
+        const hours = showDisplayHours ? "h" : "d";
+        router.push(`/periods/${hours}/${periodId}`);
       } else {
         setError("Failed to create the period.");
       }
